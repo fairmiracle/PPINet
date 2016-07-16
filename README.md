@@ -1,2 +1,2 @@
 # PPINet
-Contructing protein-protein network from multiple data sources
+Contructing protein-protein interaction network from multiple data sources
