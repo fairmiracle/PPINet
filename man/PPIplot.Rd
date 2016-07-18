@@ -7,7 +7,8 @@
 PPIplot(net, STRINGTheta = 0, savename)
 }
 \arguments{
-\item{net}{Edgelist from \code{\link{PPIFromString}} or \code{\link{PPIFromString}}}
+\item{net}{Edgelist from \code{\link{PPIFromString}}, 
+\code{\link{PPIFromStringEnsembl}} and \code{\link{PPIFromBioGRID}}}
 
 \item{STRINGTheta}{The threshold for PPI edges selections when using STRING}
 

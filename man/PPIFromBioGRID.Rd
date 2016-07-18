@@ -4,7 +4,7 @@
 \alias{PPIFromBioGRID}
 \title{PPI network from BioGRID}
 \usage{
-PPIFromBioGRID(pvalues, GeneNames, BioGRIDfilename, savename)
+PPIFromBioGRID(pvalues, GeneNames, BioGRIDfilename, savename, column1, column2)
 }
 \arguments{
 \item{pvalues}{A N-dimensional vector of gene expression level, processed by limma}
@@ -15,6 +15,10 @@ PPIFromBioGRID(pvalues, GeneNames, BioGRIDfilename, savename)
 BIOGRID-ORGANISM-Homo_sapiens-3.4.138.tab.txt}
 
 \item{savename}{The file to save R data for filtered gene symbols and network edgelist}
+
+\item{column1}{Source column in BioGRID file}
+
+\item{column2}{Target column in BioGRID file}
 }
 \description{
 Constructing protenin-protein interaction network from BioGRID database
