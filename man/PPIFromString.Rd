@@ -15,7 +15,7 @@ PPIFromString(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, savename)
 
 \item{STRINGTheta}{The threshold for PPI edges selections when using STRING}
 
-\item{savename}{The file to save R data for filtered gene symbols and network edgelist}
+\item{savename}{The file to save filtered gene symbols and network edgelist}
 }
 \description{
 Constructing protenin-protein interaction network from STRING database, when 

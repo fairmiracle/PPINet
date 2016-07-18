@@ -20,7 +20,7 @@ PPIFromStringEnsembl(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0,
 like mart_export.txt, first column is Associated Gene Name like MT-ND1, 
 second column is Ensembl Protein ID like ENSP00000354687}
 
-\item{savename}{The file to save R data for filtered gene symbols and network edgelist}
+\item{savename}{The file to save filtered gene symbols and network edgelist}
 }
 \description{
 Constructing protenin-protein interaction network from STRING database, when 

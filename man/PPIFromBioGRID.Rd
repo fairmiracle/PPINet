@@ -14,11 +14,13 @@ PPIFromBioGRID(pvalues, GeneNames, BioGRIDfilename, savename, column1, column2)
 \item{BioGRIDfilename}{The file downloaded from BioGRID, like 
 BIOGRID-ORGANISM-Homo_sapiens-3.4.138.tab.txt}
 
-\item{savename}{The file to save R data for filtered gene symbols and network edgelist}
+\item{savename}{The file to save filtered gene symbols and network edgelist}
 
-\item{column1}{Source column in BioGRID file}
+\item{column1}{Source column in BioGRID file, for Saccharomyces_cerevisiae 
+column1=1 and for Homo_sapiens column1=3}
 
-\item{column2}{Target column in BioGRID file}
+\item{column2}{Target column in BioGRID file, for Saccharomyces_cerevisiae 
+column2=3 and for Homo_sapiens column3=4}
 }
 \description{
 Constructing protenin-protein interaction network from BioGRID database

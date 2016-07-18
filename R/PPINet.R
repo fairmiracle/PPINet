@@ -8,7 +8,7 @@
 #' @param GeneNames A N-dimensional vector of gene symbols, pre-filtering by expression profiles
 #' @param STRINGfilename The file downloaded from STRING, like 4932.protein.links.v10.txt
 #' @param STRINGTheta The threshold for PPI edges selections when using STRING 
-#' @param savename The file to save R data for filtered gene symbols and network edgelist
+#' @param savename The file to save filtered gene symbols and network edgelist
 #' 
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING PPINet
@@ -67,7 +67,7 @@ PPIFromString <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, s
 #' @param Ensemblfilename The file downloaded from ensembl (Customise your download), 
 #' like mart_export.txt, first column is Associated Gene Name like MT-ND1, 
 #' second column is Ensembl Protein ID like ENSP00000354687
-#' @param savename The file to save R data for filtered gene symbols and network edgelist
+#' @param savename The file to save filtered gene symbols and network edgelist
 #' 
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING Ensembl PPINet
@@ -133,7 +133,7 @@ PPIFromStringEnsembl <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta
 #' @param GeneNames A N-dimensional vector of gene symbols, pre-filtering by expression profiles
 #' @param BioGRIDfilename The file downloaded from BioGRID, like 
 #' BIOGRID-ORGANISM-Homo_sapiens-3.4.138.tab.txt
-#' @param savename The file to save R data for filtered gene symbols and network edgelist
+#' @param savename The file to save filtered gene symbols and network edgelist
 #' @param column1 Source column in BioGRID file, for Saccharomyces_cerevisiae 
 #' column1=1 and for Homo_sapiens column1=3
 #' @param column2 Target column in BioGRID file, for Saccharomyces_cerevisiae 
