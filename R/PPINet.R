@@ -93,6 +93,10 @@ PPIFromStringEnsembl <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta
     maps = maps[selectedmapsrow,]
     interg = intersect(GeneNames,maps[,1])
 
+    selectedmapsrow = match(interg,maps[,1])
+    maps = maps[selectedmapsrow,]
+    selectedp = maps[,2]	
+    
     ##Matching gene names for further gene filtering
     cat('Filtering genes...\n')
     selectedgenes = match(interg,GeneNames)  
@@ -207,6 +211,6 @@ PPIplot <- function(net, STRINGTheta = 0, savename){
     write.table(V(comps[[1]])$name, file = paste(savename,'Compnent.dat',sep=''), 
                 row.names = FALSE, col.names = FALSE, sep="\t", quote = FALSE)
     postscript(paste(savename,'.eps',sep=''), fonts=c("serif", "Palatino"))
-    plot(sg,edge.width=0.1,vertex.label = NA,vertex.size=0.5)
+    plot(comps[[1]],edge.width=0.1,vertex.label = NA,vertex.size=0.5)
     dev.off()
 }
