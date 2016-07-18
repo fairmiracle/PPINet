@@ -13,7 +13,6 @@
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING PPINet
 #' 
-#' @examples
 #' 
 PPIFromString <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, savename){
     ##PPI pairs from STRING, protein name start with ENSPxxxx
@@ -72,7 +71,6 @@ PPIFromString <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, s
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING Ensembl PPINet
 #' 
-#' @examples
 #' 
 PPIFromStringEnsembl <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, 
                                  Ensemblfilename, savename){
@@ -194,7 +192,6 @@ PPIFromBioGRID <- function(pvalues, GeneNames, BioGRIDfilename, savename,
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING CONSTRUCTION
 #' 
-#' @examples
 #' 
 PPIplot <- function(net, STRINGTheta = 0, savename){
     if (dim(net)[2] > 2 & STRINGTheta > 0)
