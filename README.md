@@ -6,7 +6,8 @@ Contructing protein-protein interaction network from multiple data sources
 - BioGRID: one of the most popular PPI databases, edges are donated by OFFICIAL SYMBOL
 
 The basic idea is to determine a significantly expressed gene set based on expression profiles, and match the gene symbols with associated protein ids from popular PPI databases, as the following figure shows:
-![alt tag](https://github.com/fairmiracle/PPINet/blob/master/preprocess.png "Construction process of PPI network")
+![alt tag](https://github.com/fairmiracle/PPINet/blob/master/preprocess.png  =250x "Construction process of PPI network")
 
 If you are using this package, please cite the following paper:
+
 Dong Li et. al. Memetic algorithm for finding active connected subnetworks in intracellular networks.
