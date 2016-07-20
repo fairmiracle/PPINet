@@ -1,5 +1,5 @@
 # PPINet
-Contructing protein-protein interaction network from multiple data sources
+Contructing protein-protein interaction network from multiple data sources:
 - Gene expression profiles: to filter gene set in network
 - Ensembl: to match gene symbols and protein id
 - STRING: one of the most popular PPI databases, edges are donated by Ensembl Protein ID
