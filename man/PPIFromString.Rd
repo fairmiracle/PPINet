@@ -22,9 +22,6 @@ Constructing protenin-protein interaction network from STRING database, when
 STRING contains gene names from gene expression platform, like Saccharomyces 
 cerevisiae
 }
-\examples{
-
-}
 \author{
 Dong Li, \email{dxl466@cs.bham.ac.uk}
 }

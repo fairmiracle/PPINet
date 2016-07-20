@@ -139,7 +139,7 @@ PPIFromStringEnsembl <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta
 #' @param column1 Source column in BioGRID file, for Saccharomyces_cerevisiae 
 #' column1=1 and for Homo_sapiens column1=3
 #' @param column2 Target column in BioGRID file, for Saccharomyces_cerevisiae 
-#' column2=3 and for Homo_sapiens column3=4
+#' column2=2 and for Homo_sapiens column3=4
 #' 
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords BioGRID PPINet
@@ -200,7 +200,7 @@ PPIFromBioGRID <- function(pvalues, GeneNames, BioGRIDfilename, savename,
 PPIplot <- function(net, STRINGTheta = 0, savename){
     if (dim(net)[2] > 2 & STRINGTheta > 0)
         net = net[which(net[,3] > STRINGTheta),1:2]
-    el = apply(net, 2, as.character)
+    el = apply(net[,1:2], 2, as.character)
     require(igraph)
     g <- graph.edgelist(el, directed = FALSE)
     sg = simplify(g)        

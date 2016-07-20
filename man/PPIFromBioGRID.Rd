@@ -20,7 +20,7 @@ BIOGRID-ORGANISM-Homo_sapiens-3.4.138.tab.txt}
 column1=1 and for Homo_sapiens column1=3}
 
 \item{column2}{Target column in BioGRID file, for Saccharomyces_cerevisiae 
-column2=3 and for Homo_sapiens column3=4}
+column2=2 and for Homo_sapiens column3=4}
 }
 \description{
 Constructing protenin-protein interaction network from BioGRID database

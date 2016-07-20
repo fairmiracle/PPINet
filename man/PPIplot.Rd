@@ -18,9 +18,6 @@ nodes in largest connected component and figure as eps format by default}
 \description{
 Plot protenin-protein interaction network by igraph
 }
-\examples{
-
-}
 \author{
 Dong Li, \email{dxl466@cs.bham.ac.uk}
 }

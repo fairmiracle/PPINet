@@ -26,9 +26,6 @@ second column is Ensembl Protein ID like ENSP00000354687}
 Constructing protenin-protein interaction network from STRING database, when 
 protein name is needed for mapping with gene name from Ensembl
 }
-\examples{
-
-}
 \author{
 Dong Li, \email{dxl466@cs.bham.ac.uk}
 }
