@@ -10,6 +10,9 @@
 #' @param STRINGTheta The threshold for PPI edges selections when using STRING 
 #' @param savename The file to save filtered gene symbols and network edgelist
 #' 
+#' @return net two or three column edge list for \code{\link{NetSimplify}} or 
+#' \code{\link{PPIplot}} and p-values vector.
+#' 
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING PPINet
 #' 
@@ -51,7 +54,8 @@ PPIFromString <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, s
                 col.names = FALSE, sep="\t")
     write.table(GeneNames, paste(savename,'GeneNames.dat',sep=''), 
                 row.names = FALSE, col.names = FALSE,sep="\t",quote = FALSE)
-    return (net)
+    names(pvalues) = GeneNames
+    return (list(net = net,p.values = pvalues))
 }
 
 #' PPI network from STRING and Ensembl
@@ -67,6 +71,9 @@ PPIFromString <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, s
 #' like mart_export.txt, first column is Associated Gene Name like MT-ND1, 
 #' second column is Ensembl Protein ID like ENSP00000354687
 #' @param savename The file to save filtered gene symbols and network edgelist
+#' 
+#' @return net two or three column edge list for \code{\link{NetSimplify}} or 
+#' \code{\link{PPIplot}} and p-values vector. 
 #' 
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords STRING Ensembl PPINet
@@ -124,7 +131,8 @@ PPIFromStringEnsembl <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta
                 col.names = FALSE, sep="\t")
     write.table(GeneNames, paste(savename,'GeneNames.dat',sep=''), 
                 row.names = FALSE, col.names = FALSE,sep="\t",quote = FALSE)
-    return (net)
+    names(pvalues) = GeneNames
+    return (list(net = net,p.values = pvalues))
 }
 
 #' PPI network from BioGRID
@@ -141,6 +149,9 @@ PPIFromStringEnsembl <- function(pvalues, GeneNames, STRINGfilename, STRINGTheta
 #' @param column2 Target column in BioGRID file, for Saccharomyces_cerevisiae 
 #' column2=2 and for Homo_sapiens column3=4
 #' 
+#' @return net two or three column edge list for \code{\link{NetSimplify}} or 
+#' \code{\link{PPIplot}} and p-values vector. 
+#' 
 #' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
 #' @keywords BioGRID PPINet
 #' 
@@ -150,9 +161,10 @@ PPIFromBioGRID <- function(pvalues, GeneNames, BioGRIDfilename, savename,
     ##PPI pairs from STRING, protein name start with ENSPxxxx
     cat('Reading edge list from STRING...\n')
     PPI=read.delim(BioGRIDfilename,skip=35)
+    links = PPI[,c(column1,column2)]
     linkssource = PPI[,column1]
     linkstarget = PPI[,column2]
-    selectedp = union(linkssource,linkstarget)
+    selectedp = union(links[,1],links[,2])
     
     selectedgenes = intersect(selectedp,GeneNames)
     
@@ -166,6 +178,8 @@ PPIFromBioGRID <- function(pvalues, GeneNames, BioGRIDfilename, savename,
     cat('Matching gene names and constructing...\n')
     net = matrix(0,nrow = dim(PPI)[1], ncol=2)
     j = 1
+#     edges <- links[,1] %in% GeneNames & links[,2] %in% GeneNames
+#     net <- links[edges,]
     for (i in 1:dim(PPI)[1]) {
         if (is.element(linkssource[i], GeneNames) && is.element(linkstarget[i], GeneNames)){
             net[j,1] = match(linkssource[i],GeneNames)
@@ -180,7 +194,57 @@ PPIFromBioGRID <- function(pvalues, GeneNames, BioGRIDfilename, savename,
                 col.names = FALSE, sep="\t")
     write.table(GeneNames, paste(savename,'GeneNames.dat',sep=''), 
                 row.names = FALSE, col.names = FALSE,sep="\t",quote = FALSE)
-    return (net)
+    names(pvalues) = GeneNames
+    return (list(net = net,p.values = pvalues))
+}
+
+#' PPI network simplification
+#' 
+#' Simplify protenin-protein interaction network, for module identification
+#' 
+#' @param net Edgelist from \code{\link{PPIFromString}}, 
+#' \code{\link{PPIFromStringEnsembl}} and \code{\link{PPIFromBioGRID}}
+#' @param p.values The p-values vector
+#' @param savename Name for saving PPI edge list as plain file and also saving 
+#' nodes in largest connected component and figure as eps format by default
+#' 
+#' @return a list containing module size, best score, module as a list of nodes
+#' 
+#' @seealso \code{\link{PPIFromString}}, \code{\link{PPIFromStringEnsembl}} 
+#' and \code{\link{PPIFromBioGRID}}
+#' 
+#' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
+#' @keywords STRING CONSTRUCTION
+#' 
+#' @examples
+#' require(genalg)
+#' Sp <- NetSimplify(net,0)
+#' GA_result <- GA_search_connected(lambda=0.5,Sp$node_score,Sp$edge_score,
+#' Sp$Edgelist,num_iter=1000, muCh=0.05, zToR=10, minsize=10)
+#' 
+NetSimplify <- function(net, p.values, STRINGTheta = 0){
+    if (dim(net)[2] > 2 & STRINGTheta > 0)
+        net = net[which(net[,3] > STRINGTheta),]
+    GeneNames = names(p.values)
+    el = cbind(GeneNames[net[,1]],GeneNames[net[,2]])
+    #el = apply(net[,1:2], 2, as.character)
+    require(igraph)
+    g <- graph.edgelist(el, directed = FALSE)
+    sg = simplify(g)        
+    comps <- decompose.graph(sg,min.vertices=3)
+    
+    comps_edgelist = get.edgelist(comps[[1]], names=TRUE)
+    Escores = numeric(length = dim(comps_edgelist)[1])
+    if (dim(net)[2] == 3){
+        edges <- comps_edgelist[,1] %in% GeneNames & comps_edgelist[,2] %in% GeneNames
+        Escores = net[edges,3]
+        Escores = Escores/max(Escores)
+    }
+    compsids = match(V(comps[[1]])$name,GeneNames)
+    Nscores = p.values[compsids]
+    names(Nscores) = GeneNames[compsids]
+    return (list(node_score = Nscores, edge_score = Escores, 
+                 Edgelist = comps_edgelist))
 }
 
 #' PPI network visulization
@@ -203,10 +267,10 @@ PPIplot <- function(net, STRINGTheta = 0, savename){
     el = apply(net[,1:2], 2, as.character)
     require(igraph)
     g <- graph.edgelist(el, directed = FALSE)
-    sg = simplify(g)        
+    sg = simplify(g)
     comps <- decompose.graph(sg,min.vertices=3)
-    small_edgelist = get.edgelist(sg, names=TRUE)
-    write.table(small_edgelist, file = paste(savename,'Edgelist.dat',sep=''), 
+    comps_edgelist = get.edgelist(sg, names=TRUE)
+    write.table(comps_edgelist, file = paste(savename,'Edgelist.dat',sep=''), 
                 row.names = FALSE, col.names = FALSE,sep="\t",quote = FALSE)
     write.table(V(comps[[1]])$name, file = paste(savename,'Compnent.dat',sep=''), 
                 row.names = FALSE, col.names = FALSE, sep="\t", quote = FALSE)

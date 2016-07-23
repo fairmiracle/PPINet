@@ -1,0 +1,16 @@
+{
+    "contents" : "Package: PPINet\nType: Package\nTitle: Protenin-protein interaction network construction and module identification\nVersion: 1.0\nDate: 2016-07-16\nAuthor: Dong Li\nMaintainer: Dong Li <donggeat@gmail.com>\nDescription: Constructing protenin-protein interaction network from multiple\n    data sources. And searching for connected subnetworks using genetic algorithm.\nLicense: GPL (>= 2)\nRoxygenNote: 5.0.1\nImports: COSINE",
+    "created" : 1468687272296.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2449268345",
+    "id" : "AD08A500",
+    "lastKnownWriteTime" : 1469284636,
+    "path" : "D:/Code/Bioconductor/PPINet/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "dcf"
+}
