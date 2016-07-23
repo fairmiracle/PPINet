@@ -22,6 +22,10 @@ column1=1 and for Homo_sapiens column1=3}
 \item{column2}{Target column in BioGRID file, for Saccharomyces_cerevisiae 
 column2=2 and for Homo_sapiens column3=4}
 }
+\value{
+net two or three column edge list for \code{\link{NetSimplify}} or 
+\code{\link{PPIplot}} and p-values vector.
+}
 \description{
 Constructing protenin-protein interaction network from BioGRID database
 }

@@ -17,6 +17,10 @@ PPIFromString(pvalues, GeneNames, STRINGfilename, STRINGTheta = 0, savename)
 
 \item{savename}{The file to save filtered gene symbols and network edgelist}
 }
+\value{
+net two or three column edge list for \code{\link{NetSimplify}} or 
+\code{\link{PPIplot}} and p-values vector.
+}
 \description{
 Constructing protenin-protein interaction network from STRING database, when 
 STRING contains gene names from gene expression platform, like Saccharomyces 

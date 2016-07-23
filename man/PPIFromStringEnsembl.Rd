@@ -22,6 +22,10 @@ second column is Ensembl Protein ID like ENSP00000354687}
 
 \item{savename}{The file to save filtered gene symbols and network edgelist}
 }
+\value{
+net two or three column edge list for \code{\link{NetSimplify}} or 
+\code{\link{PPIplot}} and p-values vector.
+}
 \description{
 Constructing protenin-protein interaction network from STRING database, when 
 protein name is needed for mapping with gene name from Ensembl
