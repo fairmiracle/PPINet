@@ -5,7 +5,7 @@
 \title{Genetic algorithm for module identification on weighted network}
 \usage{
 GA_search_connected(lambda, node_score, edge_score, EdgeList, num_iter = 1000,
-  muCh = 0.05, zToR = 10, minsize = 10)
+  muCh = 0.05, zToR = 10, minsize = 30)
 }
 \arguments{
 \item{lambda}{weight parameter in the objective}
@@ -40,18 +40,23 @@ data(scaled_edge_score)
 data(PPI)
 GA_result <- GA_search_connected(lambda=0.5,scaled_node_score,
 scaled_edge_score,PPI,num_iter=100, muCh=0.05, zToR=10, minsize=50)
+GA_result2<-GA_search_PPI(lambda=0.5,scaled_node_score,scaled_edge_score,PPI, 
+num_iter=100, muCh=0.05, zToR=10, minsize=50)
 ## visualized by igraph
 selected = c()
 for (i in 1:dim(PPI)[1]){
-    if (PPI[i,1] \%in\% GA_result2$Subnet || PPI[i,2] \%in\% GA_result2$Subnet)
+    if (PPI[i,1] \%in\% GA_result$Subnet || PPI[i,2] \%in\% GA_result$Subnet)
         selected = c(selected,i)
 }
 library(igraph)
 g <- graph.data.frame(PPI[selected,], directed=FALSE)
-V(g)$color <- "blue"
-V(g)$color[match(GA_result2$Subnet,V(g)$name)] <- "red"
+V(g)$color <- "gray"
+V(g)$color[match(GA_result$Subnet,V(g)$name)] <- "red"
 layout <- layout.reingold.tilford(g, circular=T)
+png(filename = 'Connected_PPI.png', width=4096, height = 3652)
 plot(g,layout=layout, vertex.size=5, vertex.label.cex=5,vertex.label.dist=0.5,edge.width=5)
+dev.off()
+
 }
 \author{
 Dong Li, \email{dxl466@cs.bham.ac.uk}

@@ -32,26 +32,30 @@
 #' data(PPI)
 #' GA_result <- GA_search_connected(lambda=0.5,scaled_node_score,
 #' scaled_edge_score,PPI,num_iter=100, muCh=0.05, zToR=10, minsize=50)
+#' GA_result2<-GA_search_PPI(lambda=0.5,scaled_node_score,scaled_edge_score,PPI, 
+#' num_iter=100, muCh=0.05, zToR=10, minsize=50)
 #' ## visualized by igraph
 #' selected = c()
 #' for (i in 1:dim(PPI)[1]){
-#'     if (PPI[i,1] %in% GA_result2$Subnet || PPI[i,2] %in% GA_result2$Subnet)
+#'     if (PPI[i,1] %in% GA_result$Subnet || PPI[i,2] %in% GA_result$Subnet)
 #'         selected = c(selected,i)
 #' }
 #' library(igraph)
 #' g <- graph.data.frame(PPI[selected,], directed=FALSE)
-#' V(g)$color <- "blue"
-#' V(g)$color[match(GA_result2$Subnet,V(g)$name)] <- "red"
+#' V(g)$color <- "gray"
+#' V(g)$color[match(GA_result$Subnet,V(g)$name)] <- "red"
 #' layout <- layout.reingold.tilford(g, circular=T)
+#' png(filename = 'Connected_PPI.png', width=4096, height = 3652)
 #' plot(g,layout=layout, vertex.size=5, vertex.label.cex=5,vertex.label.dist=0.5,edge.width=5)
-
+#' dev.off()
+#' 
 #' @export
 #' 
 GA_search_connected <- function(lambda,node_score,edge_score,EdgeList,
-                                num_iter=1000, muCh=0.05, zToR=10, minsize=10){
+                                num_iter=1000, muCh=0.05, zToR=10, minsize=30){
     
     ## define the objective scoring function for condition specific subnetwork 
-    all_genes<<-names(node_score)
+    all_genes<-names(node_score)
     
     subset_extract<-function(sub){    
         genes = all_genes[sub]
@@ -134,7 +138,9 @@ GA_search_connected <- function(lambda,node_score,edge_score,EdgeList,
     
     gene_num <- length(node_score)
     print(paste("Working on lambda=",lambda)) 
-    GA_result <- rbga.bin(size=gene_num,evalFunc=subset_score,iters=num_iter,mutationChance=muCh,monitorFunc=monitor,zeroToOneRatio=zToR)      
+    GA_result <- rbga.bin(size = gene_num, evalFunc = subset_score, 
+                          iters = num_iter, mutationChance = muCh, 
+                          monitorFunc = monitor, zeroToOneRatio = zToR)
     a <- which.min(GA_result$evaluations)
     final <- GA_result$population[a,]
     b <- which(final==1)
