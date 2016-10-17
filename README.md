@@ -10,4 +10,4 @@ The basic idea is to determine a significantly expressed gene set based on expre
 
 If you are using this package, please cite the following paper:
 
-Dong Li et. al. Memetic algorithm for finding active connected subnetworks in intracellular networks.
+Dong Li et. al. Active module identification in intracellular networks using a memetic algorithm with a new binary decoding scheme.
