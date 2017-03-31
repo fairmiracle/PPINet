@@ -198,6 +198,70 @@ PPIFromBioGRID <- function(pvalues, GeneNames, BioGRIDfilename, savename,
     return (list(net = net,p.values = pvalues))
 }
 
+#' Dynamic PPI network from BioGRID
+#' 
+#' Constructing Dynamic protenin-protein interaction network from BioGRID database
+#' 
+#' @param datExpr A TxN expression matrix, each column is N-dimensional vector
+#' @param GeneNames A N-dimensional vector of gene symbols, pre-filtering by expression profiles
+#' @param BioGRIDfilename The file downloaded from BioGRID, like 
+#' BIOGRID-ORGANISM-Homo_sapiens-3.4.138.tab.txt
+#' @param savename The file to save filtered gene symbols and network edgelist
+#' @param column1 Source column in BioGRID file, for Saccharomyces_cerevisiae 
+#' column1=1 and for Homo_sapiens column1=3
+#' @param column2 Target column in BioGRID file, for Saccharomyces_cerevisiae 
+#' column2=2 and for Homo_sapiens column2=4
+#' 
+#' @return A list of net from \code{\link{PPIFromBioGRID}}
+#' 
+#' @author Dong Li, \email{dxl466@cs.bham.ac.uk}
+#' @keywords BioGRID PPINet
+#' 
+#' 
+DynamicPPIFromBioGRID <- function(datExpr, GeneNames, BioGRIDfilename, savename, 
+                           column1,column2){
+    
+    ##PPI pairs from STRING, protein name start with ENSPxxxx
+    cat('Reading edge list from STRING...\n')
+    PPI <- read.delim(BioGRIDfilename,skip=35)
+    links <- PPI[,c(column1,column2)]
+    linkssource <- PPI[,column1]
+    linkstarget <- PPI[,column2]
+    selectedp <- union(links[,1],links[,2])
+    
+    selectedgenes = intersect(selectedp,GeneNames)
+    
+    ##Matching gene names for further gene filtering
+    cat('Filtering genes...\n')
+    selectedgenes <- match(selectedgenes,GeneNames)  
+    GeneNames <- GeneNames[selectedgenes]
+    datExpr <- datExpr[,selectedgenes]
+    pvalues <- pvalues[selectedgenes]
+    
+    ##Network construction
+    cat('Matching gene names and constructing...\n')
+    net = matrix(0,nrow = dim(PPI)[1], ncol=2)
+    j = 1
+    #     edges <- links[,1] %in% GeneNames & links[,2] %in% GeneNames
+    #     net <- links[edges,]
+    for (i in 1:dim(PPI)[1]) {
+        if (is.element(linkssource[i], GeneNames) && is.element(linkstarget[i], GeneNames)){
+            net[j,1] <- match(linkssource[i],GeneNames)
+            net[j,2] <- match(linkstarget[i],GeneNames)
+            j = j + 1
+        }
+    }
+    net <- net[1:(j-1),]
+    cat('Saving files...\n')
+
+    write.table(pvalues, paste(savename,'Pvalues.dat',sep=''), row.names = FALSE, 
+                col.names = FALSE, sep="\t")
+    write.table(GeneNames, paste(savename,'GeneNames.dat',sep=''), 
+                row.names = FALSE, col.names = FALSE,sep="\t",quote = FALSE)
+    names(pvalues) = GeneNames
+    return (list(net = net,p.values = pvalues))
+}
+
 #' PPI network simplification
 #' 
 #' Simplify protenin-protein interaction network, for module identification
